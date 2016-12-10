@@ -4,7 +4,7 @@ namespace ConsoleApplication
 {
     public abstract class Djur{
         public abstract string sayStuff();
-        public abstract string getName();
+        public abstract bool getTame();
         public abstract int getLegs();
         public abstract int getTails();
         public abstract bool getSwim();
@@ -24,8 +24,8 @@ namespace ConsoleApplication
         public override string sayStuff(){
             return speak;
         }
-        public override string getName(){
-          return "Lejon";   
+        public override bool getTame(){
+            return tame;
         }
         public override int getLegs(){
             return legs;
@@ -53,12 +53,13 @@ namespace ConsoleApplication
         bool canWalk = false;
         int legs = 3;
         int tails = 1;
+        public override bool getTame(){
+            return tame;
+        }
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-           return "Katt"; 
-        }
+      
         public override int getLegs(){
             return legs;
         }
@@ -86,9 +87,10 @@ namespace ConsoleApplication
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-            return "Varg";
+          public override bool getTame(){
+            return tame;
         }
+
         public override int getLegs(){
             return legs;
         }
@@ -117,9 +119,10 @@ namespace ConsoleApplication
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-            return "Hund";
+         public override bool getTame(){
+            return tame;
         }
+
         public override int getLegs(){
             return legs;
         }
@@ -143,13 +146,15 @@ namespace ConsoleApplication
         bool canFly = false;
         bool canWalk = true;
         int legs = 9;
+        bool tame = false;
         int tails =0;
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-            return "Anka";
+        public override bool getTame(){
+            return tame;
         }
+
         public override int getLegs(){
             return legs;
         }
@@ -177,9 +182,10 @@ namespace ConsoleApplication
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-            return "Boaorm";
+         public override bool getTame(){
+            return tame;
         }
+
         public override int getLegs(){
             return legs;
         }
@@ -204,12 +210,14 @@ namespace ConsoleApplication
         bool canWalk = false;
         int legs = 3;
         int tails = 5;
+        bool tame = false;
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-            return "Fisk";
+        public override bool getTame(){
+            return tame;
         }
+
         public override int getLegs(){
             return legs;
         }
@@ -234,12 +242,14 @@ namespace ConsoleApplication
         bool canWalk = true;
         int legs = 0;
         int tails = 0;
+        bool tame = false;
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-            return "Haj";
+        public override bool getTame(){
+            return tame;
         }
+
         public override int getLegs(){
             return legs;
         }
@@ -261,14 +271,16 @@ namespace ConsoleApplication
          bool canSwim = false;
         bool canFly = true;
         bool canWalk = false;
-        int legs = 2;
+        int legs = 8;
         int tails = 1;
+        bool tame = false;
         public override string sayStuff(){
             return speak;
         } 
-        public override string getName(){
-            return "Människa";
+        public override bool getTame(){
+            return tame;
         }
+
         public override int getLegs(){
             return legs;
         }
@@ -288,6 +300,68 @@ namespace ConsoleApplication
     
     
     public class doot{
+        public static string NameOfStuff(Djur d){
+            return d.ToString().Substring(d.ToString().LastIndexOf('.')+1);
+        }
+        public static void MinstAntalBen(List<Djur> djur, int legs){
+            Console.WriteLine("\nDjur med minst {0} ben",legs);
+            foreach(Djur d in djur){
+                if (d.getLegs() >= legs){
+                    Console.WriteLine("\t{0}",NameOfStuff(d));
+                }
+            }
+
+        }
+        public static void MinstAntalSvansar(List<Djur> djur, int svansar){
+            Console.WriteLine("\nDjur med minst {0} svansar",svansar);
+            foreach(Djur d in djur){
+                if (d.getTails() >= svansar){
+                    Console.WriteLine("\t{0}",NameOfStuff(d));
+                }
+            }
+
+        }
+        public static void TamaDjur(List<Djur> djur){
+            Console.WriteLine("\nTama djur");
+            foreach(Djur d in djur){
+                if (d.getTame()){
+                    Console.WriteLine("\t{0}",NameOfStuff(d));
+                }
+            }
+        }
+        public static void InteTamaDjur(List<Djur> djur){
+            Console.WriteLine("\nINTE Tama djur");
+            foreach(Djur d in djur){
+                if (!d.getTame()){
+                    Console.WriteLine("\t{0}",NameOfStuff(d));
+                }
+            }
+        }
+
+        public static void KanSimma(List<Djur> djur){
+            Console.WriteLine("\nDjur som kan simma");
+            foreach(Djur d in djur){
+                if (d.getSwim()){
+                    Console.WriteLine("\t{0}",NameOfStuff(d));
+                }
+            }
+        }
+        public static void KanFlyga(List<Djur> djur){
+            Console.WriteLine("\nDjur som kan flyga");
+            foreach(Djur d in djur){
+                if (d.getFly()){
+                    Console.WriteLine("\t{0}",NameOfStuff(d));
+                }
+            }
+        }
+        public static void KanGå(List<Djur> djur){
+            Console.WriteLine("\nDjur som kan gå");
+            foreach(Djur d in djur){
+                if (d.getWalk()){
+                    Console.WriteLine("\t{0}",NameOfStuff(d));
+                }
+            }
+        }
         public static void Main(string[]args){
             List<Djur> animals = new List<Djur>();
 
@@ -302,7 +376,15 @@ namespace ConsoleApplication
             animals.Add(new Haj());
 
 
+            MinstAntalBen(animals,3);
+            KanSimma(animals);
+            KanFlyga(animals);
+            KanGå(animals);
+            MinstAntalSvansar(animals,5);
 
+            MinstAntalBen(animals,6);
+
+            /*
             Console.WriteLine("\n\t more than 2 legs.");
             foreach(Djur d in animals){                                 
                 if (d.getLegs() > 2){
@@ -323,7 +405,7 @@ namespace ConsoleApplication
                    Console.WriteLine(d.getName());
                 }
             }
- 
+ */
         }
     }
     
