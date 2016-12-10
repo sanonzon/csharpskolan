@@ -13,6 +13,10 @@ namespace Uppg4{
         }
         public class Heltal : hasMultiplication<Heltal> {  // Detta är ett sätt att ärva "krav" på funktionalitet för vår klass Heltal.
             private int m;
+            ~Heltal(){
+                System.Console.WriteLine("Destructor is called of Heltal({0})",this.ToString());
+                Singleton.removeFromList(this);
+            }
             public Heltal(int a) { m = a; Singleton.addToList(this);}
             static public   Heltal operator*(Heltal a, Heltal b){return a.multiply(b);}
             public override string ToString(){
@@ -30,6 +34,7 @@ namespace Uppg4{
             public int getInt(){
                 return m;
             }
+ 
         }
         class Singleton{
             private Singleton() { } // Vi gör konstruktorn privat så vi inte kan skapa objekt själva.
@@ -41,12 +46,16 @@ namespace Uppg4{
             
             private static Singleton mInstance = null;  // En privat statisk medlemsvariabel försäkrar att vi endast via GetInstance kan komma åt objekt av denna typen.
 
-            private static List<Heltal> listan;
+            private static List<Heltal> listan = new List<Heltal>();
             public static void addToList(Heltal h){
                 listan.Add(h);
             }
+            public static void removeFromList(Heltal h){
+                listan.Remove(h);
+            }
             
             public void PrintaListan(){
+                Console.WriteLine("New print");
                 foreach(Heltal h in listan){
                     Console.WriteLine(h.ToString());
                 }
@@ -58,15 +67,15 @@ namespace Uppg4{
             //Singleton s = new Singleton();  // Testa detta! ( Ska inte funka )
             Singleton s = Singleton.GetInstance();  // Detta funkar bättre!
 
-            Heltal a = new Heltal(2);
-            Console.WriteLine(a * a);  
-
+            Heltal a = new Heltal(2);              
+            s.PrintaListan();
+            a = null;
+            Heltal b = new Heltal(3);        
             s.PrintaListan();
 
-            new Heltal(3);
-            new Heltal(7);
-
+            Heltal c = new Heltal(7);
             s.PrintaListan();
+            
             // Utför här några experiment där ni räknar ut och skapar nya heltal kopplade till singelton-logger
             // och undersöker så att listan uppdateras som den ska.
         }
